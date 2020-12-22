@@ -2,16 +2,8 @@
 import ScriptEnv
 oAnsoftApp = CreateObject("Ansoft.ElectronicsDesktop")
 oDesktop = oAnsoftApp.GetAppDesktop()
-oDesktop.RestoreWindow()
-sys = oDesktop.GetSysLibDirectory()
-AddInfoMessage("SysLib Directory: " + sys)
-user = oDesktop.GetUserLibDirectory()
-AddInfoMessage("UserLib Directory: " + user)
-per = oDesktop.GetPersonalLibDirectory()
-AddInfoMessage("PersonalLib Directory: " + per)
-pjt = oDesktop.GetProjectDirectory()
-AddInfoMessage("Project Directory: " + pjt)
-oProject = oDesktop.GetActiveProject()
+oDesktop.RestoreWindow()               #最小化Twin Builder window
+oProject = oDesktop.GetActiveProject() #获取ansys当前打开（活跃）的项目
 oDesign = oProject.GetActiveDesign()
 oEditor = oDesign.SetActiveEditor("SchematicEditor")
 selectionArray = oEditor.GetSelections()
@@ -42,8 +34,13 @@ for i in selectionArray:
         AddInfoMessage("Element in array from GetSignals: " + ll)
 oSimplorerApp = oAnsoftApp.GetApp("Twin Builder")
 count = oSimplorerApp.GetProcessResources ("GDI")
+
+'''
+6 Desktop Commands
+这一章主要是操作软件窗口
+'''
 oDesktop.CloseAllWindows()
-oDesktop.AddMessage ("Project1", "TwinBuilder1", 1, "This isa test Warning")  #0：infomercial 1：warning 2：error 3：fatal
+oDesktop.AddMessage ("Project1", "TwinBuilder1", 0, "This isa test infomercial")  #0：infomercial 1：warning 2：error 3：fatal
 oDesktop.EnableAutoSave(True)
 oDesktop.ExportOptionsFiles("D:/ansys/project/ye_unit2/")
 Enabled = oDesktop.GetAutoSaveEnabled()
@@ -53,6 +50,58 @@ AddInfoMessage("BuildDateTime: "+str(dnt))
 for machine in oDesktop.GetDistributedAnalysisMachines():
     AddInfoMessage(str(machine))
 machineNames =oDesktop.GetDistributedAnalysisMachinesForDesignType("Twin Builder")
+sys = oDesktop.GetSysLibDirectory()
+AddInfoMessage("SysLib Directory: " + sys)
+user = oDesktop.GetUserLibDirectory()
+AddInfoMessage("UserLib Directory: " + user)
+per = oDesktop.GetPersonalLibDirectory()
+AddInfoMessage("PersonalLib Directory: " + per)
+pjt = oDesktop.GetProjectDirectory()
+AddInfoMessage("Project Directory: " + pjt)
+AddInfoMessage("GetMessages: " + str(oDesktop.GetMessages("Project1","TwinBuilder1",0)))
+AddInfoMessage("GetLibraryDirectory:"+str(oDesktop.GetLibraryDirectory()))  #输出库目录
+AddInfoMessage("GetProjectList:"+str(oDesktop.GetProjectList()))  #输出所有打开工程名称的列表
+for pjt in oDesktop.GetProjects():
+    AddInfoMessage("GetProjects:"+str(pjt.GetName()))
+AddInfoMessage("GetTempDirectory:"+str(oDesktop.GetTempDirectory))
+AddInfoMessage("GetVersion:"+str(oDesktop.GetVersion()))
+'''Desktop Commands
+--Monitor job dialog'''
+#oDesktop.LaunchJobMonitor("D:/ansys/project/ye_unit1/Project1.aedt")  #open a Monitor job window
+#oProject = oDesktop.NewProject() #Create a new Project
+#oDesktop.OpenProject("D:/ansys/project/ye/Project1.aedt") #这里使用‘/’,不能使用window格式的目录格式
+#oDesktop.Print() #这个会让工程闪退，原因wei'zhi
+#oDesktop.QuitApplication()
+#oDesktop.RefreshJobMonitor()
+
+#oProject = oDesktop.SetActiveProject ("Project2")  #相当于选中软件中打开的Project2工程
+#oProject = oDesktop.SetActiveProjectByPath("D:/ansys/project/ye/Project1.aedt")  #同名的工程用这个接口
+
+'''
+7 Script Commands
+这一章主要是操作工程（重要）
+'''
+#oProject.AnalyzeAll()   #开始分析
+#oProject.ClearMessages() #清除项目输出信息
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #oDesktop.CloseProject("Project1")
 
