@@ -65,6 +65,7 @@ for pjt in oDesktop.GetProjects():
     AddInfoMessage("GetProjects:"+str(pjt.GetName()))
 AddInfoMessage("GetTempDirectory:"+str(oDesktop.GetTempDirectory))
 AddInfoMessage("GetVersion:"+str(oDesktop.GetVersion()))
+#oProject.ClearMessages() #清除项目输出信息
 '''Desktop Commands
 --Monitor job dialog'''
 #oDesktop.LaunchJobMonitor("D:/ansys/project/ye_unit1/Project1.aedt")  #open a Monitor job window
@@ -82,10 +83,26 @@ AddInfoMessage("GetVersion:"+str(oDesktop.GetVersion()))
 这一章主要是操作工程（重要）
 '''
 #oProject.AnalyzeAll()   #开始分析
-#oProject.ClearMessages() #清除项目输出信息
+#oProject.Close() #关闭工程
+oDefinitionManager = oProject.GetDefinitionManager()
+for dsn in oProject.GetDesigns():
+    AddInfoMessage(dsn.GetName())
+AddInfoMessage (str(oProject.GetName()))        #get project name
+AddInfoMessage(str(oProject.GetPath()))         #get project path
 
-
-
+name_list = oProject.GetTopDesignList()         
+for i in name_list:
+    AddInfoMessage(str(i))
+    
+#oDesign2 =oDesign.InsertDesign("", "AmpChannel", "", "") #insert a new design
+#oProject.Rename("D:/ansys/project/ye_unit1/Project1.aedt", True)  #重命名项目名称并保存
+#oProject.Save()
+#oProject.SaveAs("D:/ansys/project/ye_unit1/Project2.aedt", true)  #另存为
+#oProject.SimulateAll()
+'''
+8 Definition Manager Script Commands
+'''
+oComponentManager = oDefinitionManager.GetManager("Component")
 
 
 
